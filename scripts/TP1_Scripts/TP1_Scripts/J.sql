@@ -1,5 +1,5 @@
 /*Function
-Listar a contagem dos eventos cancelados, agrupados por tipo, num dado intervalo de datas; 
+Listar todos os eventos com lugares disponíveis para um intervalo de datas especificado;  
 */
 
 use SoAventura
@@ -20,9 +20,12 @@ go
 create function dbo.EventosDisponiveis(@INICIO DATE,@FIM DATE)
 returns table
 as
-	
-	return SELECT Id_Evento,ano FROM dbo.Evento_Desportivo WHERE (estado='em subscrição' OR estado='subscrito') AND @FIM<=fim_data_subscrição AND @INICIO>=inicio_data_subscrição/* AND PARTICIPANTES COUNT < MAX PARTICIPANTES*/ 
-	/*return (select top (@n) * from dbo.Licitacao where unCheck = 1 order by dataHora desc)   */
+
+	RETURN SELECT
+	Id_Evento, ano
+	FROM dbo.Evento_Desportivo 
+	WHERE ((estado='em subscrição' OR estado='subscrito') AND data_da_realização<=@FIM AND data_da_realização>=@INICIO AND max_participantes>=
+	(SELECT COUNT (NIF) FROM dbo.Subscrição WHERE dbo.Evento_Desportivo.Id_Evento=dbo.Subscrição.Id_Evento AND dbo.Evento_Desportivo.ano=dbo.Subscrição.ano)) 
 go 
 
 COMMIT

@@ -17,11 +17,21 @@ if OBJECT_ID('dbo.EventosCancelados') is not null
 	drop function dbo.EventosCancelados
 
 go
-create function dbo.EventosCancelados(/*@n int,*/@INICIO DATE,@FIM DATE)
+create function dbo.EventosCancelados(@INICIO DATE,@FIM DATE)
 returns table
 as
-	return SELECT Id_Evento,ano FROM dbo.Evento_Desportivo WHERE estado='cancelado' AND data_da_realização<=@FIM AND data_da_realização>=@INICIO /*GROUP BY TIPO DE EVENTO*/ 
-	/*return (select top (@n) * from dbo.Licitacao where unCheck = 1 order by dataHora desc)   */
+	RETURN SELECT
+	COUNT(dbo.Canoagem.Id_Evento) AS CanoagemCancelados, 
+	COUNT(dbo.escalada.Id_Evento) AS EscaladaCancelados,
+	COUNT(dbo.trail.Id_Evento) AS TrailCancelados,
+	COUNT(dbo.ciclismo.Id_Evento) AS CiclismoCancelados
+	FROM dbo.Evento_Desportivo 
+	JOIN dbo.canoagem on(dbo.Evento_Desportivo.Id_Evento= dbo.canoagem.Id_Evento AND dbo.Evento_Desportivo.ano= dbo.canoagem.ano)
+	JOIN dbo.escalada on(dbo.Evento_Desportivo.Id_Evento= dbo.escalada.Id_Evento AND dbo.Evento_Desportivo.ano= dbo.escalada.ano)
+	JOIN dbo.trail on(dbo.Evento_Desportivo.Id_Evento= dbo.trail.Id_Evento AND dbo.Evento_Desportivo.ano= dbo.trail.ano)
+	JOIN dbo.ciclismo on(dbo.Evento_Desportivo.Id_Evento= dbo.ciclismo.Id_Evento AND dbo.Evento_Desportivo.ano= dbo.ciclismo.ano)
+	WHERE (estado='cancelado' AND data_da_realização<=@FIM AND data_da_realização>=@INICIO) 
+
 go 
 
 COMMIT
