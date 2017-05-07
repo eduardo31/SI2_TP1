@@ -85,7 +85,7 @@ IF @NIF IS NULL
 IF NOT EXISTS(SELECT NIF FROM dbo.Cliente where NIF = @NIF)
 	RAISERROR('Não existe um cliente com este NIF!',15,1)
 ELSE
-	UPDATE dbo.Client SET existente='F' WHERE NIF = @NIF
+	UPDATE dbo.Cliente SET existente='F' WHERE NIF = @NIF
 COMMIT
 
 /*DELETE FROM dbo.Cliente
