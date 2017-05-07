@@ -102,7 +102,7 @@ IF OBJECT_ID('dbo.Fatura') is null
 		Id_Evento int,
 		ano int,
 		Id_Factura int,
-		montante varchar(50),
+		montante smallmoney,
 		data_pagamento datetime,
 		descricao varchar(50),
 		Nome varchar(50),
@@ -115,6 +115,6 @@ IF OBJECT_ID('dbo.MailsEnviados') is null
 	CREATE TABLE dbo.MailsEnviados (
 		NIF numeric(9),
 		email varchar(50),
-		MSG varchar(250)
+		MSG varchar(8000)
 		PRIMARY KEY(NIF)
 	)

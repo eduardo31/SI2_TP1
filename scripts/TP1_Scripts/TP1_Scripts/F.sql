@@ -10,11 +10,7 @@ CREATE PROCEDURE dbo.PagarSubscricao
 		@Id_Evento int,
 		@ano int,
 		@Id_Factura int output,
-		@montante varchar(50),
-		/*data_pagamento datetime,*/
-		/*descricao varchar(50),
-		Nome varchar(50),
-		Morada varchar(50),*/
+		@montante SMALLMONEY,
 		@NIF numeric(9)
 AS
 SET xact_abort ON 
