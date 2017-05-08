@@ -33,7 +33,7 @@ BEGIN TRANSACTION
 	SET @ID=@ID+1
 
 	INSERT INTO dbo.Evento_Desportivo(Id_Evento, ano, data_da_realização, data_limite_pagamento, fim_data_subscrição, inicio_data_subscrição, idade_min, idade_max, estado, min_participantes, max_participantes, descrição, preço_por_participante) 
-	VALUES (@ID, @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, NULL, @min_participantes, @max_participantes, @descrição, @preço_por_participante)
+	VALUES (@ID, @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, @estado, @min_participantes, @max_participantes, @descrição, @preço_por_participante)
 	PRINT @ID
 	COMMIT
 	RETURN @ID
@@ -168,7 +168,7 @@ AS
 SET xact_abort ON 
 BEGIN TRANSACTION
 	DECLARE @ID INT
-	exec @ID =  dbo.InsertEvento /*@ID,*/ @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, NULL, @min_participantes, @max_participantes, @descrição, @preço_por_participante
+	exec @ID =  dbo.InsertEvento /*@ID,*/ @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, @estado, @min_participantes, @max_participantes, @descrição, @preço_por_participante
 	/*SELECT */
 	PRINT @ID
 	INSERT INTO dbo.canoagem(Id_Evento, ano, dificuldade)
@@ -202,7 +202,7 @@ AS
 SET xact_abort ON 
 BEGIN TRANSACTION
 	DECLARE @ID INT
-	exec @ID =dbo.InsertEvento/* @ID,*/ @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, NULL, @min_participantes, @max_participantes, @descrição, @preço_por_participante
+	exec @ID =dbo.InsertEvento/* @ID,*/ @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, @estado, @min_participantes, @max_participantes, @descrição, @preço_por_participante
 	PRINT @ID
 	INSERT INTO dbo.escalada(Id_Evento, ano, dificuldade)
 	VALUES(@ID, @ano, @dificuldade)
@@ -235,7 +235,7 @@ AS
 SET xact_abort ON 
 BEGIN TRANSACTION
 	DECLARE @ID INT
-	exec @ID =dbo.InsertEvento /*@ID,*/ @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, NULL, @min_participantes, @max_participantes, @descrição, @preço_por_participante
+	exec @ID =dbo.InsertEvento /*@ID,*/ @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, @estado, @min_participantes, @max_participantes, @descrição, @preço_por_participante
 	PRINT @ID
 	INSERT INTO dbo.ciclismo(Id_Evento, ano, distancia)
 	VALUES(@ID, @ano, @distancia)
@@ -268,7 +268,7 @@ AS
 SET xact_abort ON 
 BEGIN TRANSACTION
 	DECLARE @ID INT
-	exec @ID = dbo.InsertEvento /*@ID,*/ @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, NULL, @min_participantes, @max_participantes, @descrição, @preço_por_participante
+	exec @ID = dbo.InsertEvento /*@ID,*/ @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, @estado, @min_participantes, @max_participantes, @descrição, @preço_por_participante
 	PRINT @ID
 	INSERT INTO dbo.trail(Id_Evento, ano, distancia)
 	VALUES(@ID, @ano, @distancia)

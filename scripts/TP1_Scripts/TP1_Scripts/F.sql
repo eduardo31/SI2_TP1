@@ -31,6 +31,7 @@ BEGIN TRANSACTION
 
 	IF @estado='concluído' or @estado='cancelado'
 		RAISERROR('A DATA LIMITE DE PAGAMENTO FOI EXCEDIDA!',15,1)
+
 	IF @montante<@preço_por_participante
 		RAISERROR('MONTANTE INSUFICIENTE!',15,1)
 

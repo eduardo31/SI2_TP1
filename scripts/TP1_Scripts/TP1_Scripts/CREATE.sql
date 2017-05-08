@@ -30,7 +30,7 @@ IF OBJECT_ID('dbo.Evento_Desportivo') is null
 		preço_por_participante smallmoney,
 		Processed BIT DEFAULT 0,
 		PRIMARY KEY (Id_Evento,ano),
-		CHECK(estado=NULL or estado='em subscrição' or estado='subscrito' or estado='concluído' or estado='cancelado')
+		CHECK(estado IS NULL or estado='em subscrição' or estado='subscrito' or estado='concluído' or estado='cancelado')
 	)
 
 GO

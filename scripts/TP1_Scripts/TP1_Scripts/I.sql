@@ -20,17 +20,17 @@ go
 create function dbo.EventosCancelados(@INICIO DATE,@FIM DATE)
 returns table
 as
-	RETURN SELECT
-	COUNT(dbo.Canoagem.Id_Evento) AS CanoagemCancelados, 
-	COUNT(dbo.escalada.Id_Evento) AS EscaladaCancelados,
-	COUNT(dbo.trail.Id_Evento) AS TrailCancelados,
-	COUNT(dbo.ciclismo.Id_Evento) AS CiclismoCancelados
-	FROM dbo.Evento_Desportivo 
-	JOIN dbo.canoagem on(dbo.Evento_Desportivo.Id_Evento= dbo.canoagem.Id_Evento AND dbo.Evento_Desportivo.ano= dbo.canoagem.ano)
-	JOIN dbo.escalada on(dbo.Evento_Desportivo.Id_Evento= dbo.escalada.Id_Evento AND dbo.Evento_Desportivo.ano= dbo.escalada.ano)
-	JOIN dbo.trail on(dbo.Evento_Desportivo.Id_Evento= dbo.trail.Id_Evento AND dbo.Evento_Desportivo.ano= dbo.trail.ano)
-	JOIN dbo.ciclismo on(dbo.Evento_Desportivo.Id_Evento= dbo.ciclismo.Id_Evento AND dbo.Evento_Desportivo.ano= dbo.ciclismo.ano)
-	WHERE (estado='cancelado' AND data_da_realização<=@FIM AND data_da_realização>=@INICIO) 
+	RETURN SELECT 
+	COUNT(tb.Id_Evento) AS CanoagemCancelados , 
+	COUNT(tc.Id_Evento) AS EscaladaCancelados,
+	COUNT(td.Id_Evento) AS TrailCancelados,
+	COUNT(te.Id_Evento) AS CiclismoCancelados
+	FROM dbo.Evento_Desportivo AS ta
+	Left Outer Join dbo.canoagem AS tb ON ta.Id_Evento = tb.Id_Evento
+	Left Outer Join dbo.escalada AS tc ON ta.Id_Evento = tc.Id_Evento
+	Left Outer Join dbo.trail AS td ON ta.Id_Evento = td.Id_Evento
+	Left Outer Join dbo.ciclismo AS te ON ta.Id_Evento = te.Id_Evento
+	WHERE (estado='cancelado' AND data_da_realização<=@FIM AND data_da_realização>=@INICIO)
 
 go 
 
