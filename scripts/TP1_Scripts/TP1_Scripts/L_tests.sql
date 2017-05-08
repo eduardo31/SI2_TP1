@@ -76,14 +76,28 @@ print('Antes de inserir eventos')
 	select * from dbo.Evento_Desportivo
 
 
-	exec dbo.InsertEventoCanoagem @ano=2017,	@data_da_realização='2017-06-1 16:30:00',@data_limite_pagamento = '2017-05-31',@fim_data_subscrição = '2017-05-25',	@inicio_data_subscrição = '2017-05-1',	@idade_min = 8,	@idade_max = 65,	@min_participantes = 2,	@max_participantes = 4,	@descrição = 'Descer o rio tejo.',	@preço_por_participante = 24.99,	@dificuldade =1
-	exec dbo.InsertEventoCanoagem @ano=2017,	@data_da_realização='2017-06-25 16:30:00',@data_limite_pagamento = '2017-06-24',@fim_data_subscrição = '2017-06-20',	@inicio_data_subscrição = '2017-05-5',	@idade_min = 8,	@idade_max = 65,	@min_participantes = 1,	@max_participantes = 2,	@descrição = 'Descer o rio douro.',	@preço_por_participante = 24.99,	@dificuldade =5
+	exec dbo.InsertEventoCanoagem @ano=2017,	@data_da_realização='2017-06-1 16:30:00',@data_limite_pagamento = '2017-05-31',@fim_data_subscrição = '2017-05-25',		@inicio_data_subscrição = '2017-05-1',	@idade_min = 8,		@idade_max = 65,	@min_participantes = 2,	@max_participantes = 4,		@descrição = 'Descer o rio tejo.',	@preço_por_participante = 24.99,	@dificuldade =1
+	exec dbo.InsertEventoCanoagem @ano=2017,	@data_da_realização='2017-06-25 16:30:00',@data_limite_pagamento = '2017-06-24',@fim_data_subscrição = '2017-06-20',	@inicio_data_subscrição = '2017-05-5',	@idade_min = 8,		@idade_max = 65,	@min_participantes = 1,	@max_participantes = 2,		@descrição = 'Descer o rio douro.',	@preço_por_participante = 24.99,	@dificuldade =5
 	
-	exec dbo.InsertEventoEscalada @ano=2017,	@data_da_realização='2017-06-25 16:30:00',@data_limite_pagamento = '2017-06-24',@fim_data_subscrição = '2017-06-20',	@inicio_data_subscrição = '2017-05-5',	@idade_min = 8,	@idade_max = 65,	@min_participantes = 1,	@max_participantes = 2,	@descrição = 'Escalar a parede do ISEL.',	@preço_por_participante = 24.99,	@dificuldade =5
+	exec dbo.InsertEventoEscalada @ano=2017,	@data_da_realização='2017-06-25 16:30:00',@data_limite_pagamento = '2017-06-24',@fim_data_subscrição = '2017-06-20',	@inicio_data_subscrição = '2017-06-1',	@idade_min = 8,		@idade_max = 65,	@min_participantes = 1,	@max_participantes = 2,		@descrição = 'Escalar a parede do ISEL.',	@preço_por_participante = 24.99,	@dificuldade =5
 
-	exec dbo.InsertEventoCiclismo @ano=2017,	@data_da_realização='2017-06-25 16:30:00',@data_limite_pagamento = '2017-06-24',@fim_data_subscrição = '2017-06-20',	@inicio_data_subscrição = '2017-05-5',	@idade_min = 8,	@idade_max = 65,	@min_participantes = 1,	@max_participantes = 2,	@descrição = 'Escalar a parede do ISEL.',	@preço_por_participante = 24.99,	@distancia =50
+	exec dbo.InsertEventoCiclismo @ano=2017,	@data_da_realização='2017-06-25 16:30:00',@data_limite_pagamento = '2017-06-24',@fim_data_subscrição = '2017-06-20',	@inicio_data_subscrição = '2017-06-1',	@idade_min = 8,		@idade_max = 65,	@min_participantes = 1,	@max_participantes = 2,		@descrição = 'BTT #1 ISEL.',	@preço_por_participante = 14.99,	@distancia =50
+	exec dbo.InsertEventoCiclismo @ano=2017,	@data_da_realização='2017-07-15 16:30:00',@data_limite_pagamento = '2017-07-10',@fim_data_subscrição = '2017-07-08',	@inicio_data_subscrição = '2017-07-1',	@idade_min = 8,		@idade_max = 65,	@min_participantes = 1,	@max_participantes = 2,		@descrição = 'BTT #2 ISEL.',	@preço_por_participante = 27.50,	@distancia =50
+
+	exec dbo.InsertEventoEscalada @ano=2017,	@data_da_realização='2017-07-25 16:30:00',@data_limite_pagamento = '2017-06-30',@fim_data_subscrição = '2017-06-30',	@inicio_data_subscrição = '2017-06-1',	@idade_min = 10,	@idade_max = 16,	@min_participantes = 5,	@max_participantes = 10,	@descrição = 'Escalar a parede do ISEL. #2',	@preço_por_participante = 10.99,	@dificuldade =2
+
+	exec dbo.InsertEventoTrail @ano=2017,		@data_da_realização='2017-07-25 14:30:00',@data_limite_pagamento = '2017-06-25',@fim_data_subscrição = '2017-06-20',	@inicio_data_subscrição = '2017-06-1',	@idade_min = 8,		@idade_max = 65,	@min_participantes = 1,	@max_participantes = 2,		@descrição = 'Trail',	@preço_por_participante = 24.99,	@distancia =50
 	
-	exec dbo.InsertEventoCiclismo @ano=2017,	@data_da_realização='2017-06-25 16:30:00',@data_limite_pagamento = '2017-06-24',@fim_data_subscrição = '2017-06-20',	@inicio_data_subscrição = '2017-06-1',	@idade_min = 8,	@idade_max = 65,	@min_participantes = 1,	@max_participantes = 2,	@descrição = 'Escalar a parede do ISEL.',	@preço_por_participante = 24.99,	@distancia =50
+	/* 1 mes depois */
+	exec dbo.InsertEventoTrail @ano=2017,		@data_da_realização='2017-08-10 10:00:00',@data_limite_pagamento = '2017-07-30',@fim_data_subscrição = '2017-07-30',	@inicio_data_subscrição = '2017-06-1',	@idade_min = 20,	@idade_max = 45,	@min_participantes = 5,	@max_participantes = 20,	@descrição = 'Summer Trail',	@preço_por_participante = 20.99,	@distancia =30
+
+	/* past events */  
+	exec dbo.InsertEventoTrail @ano=2017,		@data_da_realização='2017-04-05 10:00:00',@data_limite_pagamento = '2017-04-03',@fim_data_subscrição = '2017-04-01',	@inicio_data_subscrição = '2017-03-10',	@idade_min = 30,	@idade_max = 50,	@min_participantes = 10,	@max_participantes = 30,	@descrição = 'Trail ISEL.',	@preço_por_participante = 35.99,	@distancia =70  --higher price
+	exec dbo.InsertEventoCiclismo @ano=2016,	@data_da_realização='2016-10-10 15:00:00',@data_limite_pagamento = '2016-10-01',@fim_data_subscrição = '2016-10-05',	@inicio_data_subscrição = '2016-10-1',	@idade_min = 10,	@idade_max = 50,	@min_participantes = 10,	@max_participantes = 20,	@descrição = 'Bicicleta ISEL.',	@preço_por_participante = 9.99,	@distancia =20
+
+	/* evento escalada que inicia com o estado cancelado */
+	exec dbo.InsertEventoEscalada @ano=2017,	@data_da_realização='2017-05-10 15:00:00',@data_limite_pagamento = '2017-05-09',@fim_data_subscrição = '2017-05-15',	@inicio_data_subscrição = '2017-05-1',	@idade_min = 15,	@idade_max = 30, @estado='cancelado', @min_participantes = 15,	@max_participantes = 30,	@descrição = 'Escalada ISEL.',	@preço_por_participante = 12.99,	@dificuldade =4
+
 
 
 print('Verificar se foram inseridos os eventos')
@@ -125,13 +139,19 @@ print(' ')
 print('*****************************TESTE E*****************************')
 print(' ')
 print('Subscrever clinte')
+print('Antes de subscrever') 
 	select * from dbo.Subscrição
 
-
-	exec SubscreverClienteEvento @Id_Evento=2,@ano=2017,@NIF=178845691
-
-	select * from dbo.Subscrição
 	
+	exec dbo.SubscreverClienteEvento @Id_Evento=2,@ano=2017,@NIF=178845691
+	exec dbo.SubscreverClienteEvento @Id_Evento=3,@ano=2017,@NIF=178845691
+	exec dbo.SubscreverClienteEvento @Id_Evento=4,@ano=2017,@NIF=138845691 /* client exceeds max age */
+	exec dbo.SubscreverClienteEvento @Id_Evento=5,@ano=2017,@NIF=118845791
+	exec dbo.SubscreverClienteEvento @Id_Evento=1,@ano=2016,@NIF=118845791 /* 2016 */
+	exec dbo.SubscreverClienteEvento @Id_Evento=9,@ano=2017,@NIF=198865691 /* subscription with price over 35eur */
+	
+print('Depois de subscrever') 
+	select * from dbo.Subscrição	
 GO
 
 COMMIT
