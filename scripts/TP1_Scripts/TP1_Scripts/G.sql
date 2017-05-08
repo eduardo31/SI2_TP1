@@ -67,7 +67,7 @@ as
  
 		DECLARE @Id int,@ANOEVENTO int
  
-       SELECT @Id = INSERTED.Id_Evento , @ANOEVENTO = INSERTED.ano FROM INSERTED
+		SELECT @Id = INSERTED.Id_Evento , @ANOEVENTO = INSERTED.ano FROM INSERTED
 
 		/*CRIAR A MENSAGEM*/
 		declare @MENSAGEM varchar(8000)
@@ -77,11 +77,16 @@ as
 		/*group by cat_id*/
 		option(maxdop 1)/**/
 		/*print @MENSAGEM*/
-
+		IF NOT EXISTS(SELECT NIF FROM dbo.Subscrição WHERE Id_Evento = @Id AND ano=@ANOEVENTO)
+			RAISERROR('Sem clientes subscritos',15,1)
+		ELSE
+		BEGIN
+			DECLARE @NIF numeric(9)
+			SELECT @NIF=(SELECT NIF FROM dbo.Subscrição WHERE Id_Evento = @Id AND ano=@ANOEVENTO)
+			EXEC dbo.SendMail @NIF,@MENSAGEM
+		END	
 		/*ENVIAR EMAIL*/
-		DECLARE @NIF numeric(9)
-		SELECT @NIF=(SELECT NIF FROM DBO.Subscrição WHERE Id_Evento = @Id AND ano=@ANOEVENTO)
-		EXEC dbo.SendMail @NIF,@MENSAGEM
+		
 
 	END
 go

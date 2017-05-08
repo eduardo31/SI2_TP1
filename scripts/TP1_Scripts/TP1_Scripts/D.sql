@@ -7,7 +7,7 @@ IF OBJECT_ID('dbo.InsertEvento') IS NOT NULL
 GO
 
 CREATE PROCEDURE dbo.InsertEvento
-	@ID int output,
+	/*@ID int output,*/
 	@ano int output,
 	@data_da_realização datetime= NULL,
 	@data_limite_pagamento date= NULL,
@@ -24,6 +24,7 @@ AS
 SET xact_abort ON 
 BEGIN TRANSACTION
 	/*DECLARE @ID INT*/
+	DECLARE @ID INT
 
 	SELECT @ID = max(Id_Evento) FROM dbo.Evento_Desportivo WHERE ano=@ano
 
@@ -34,8 +35,8 @@ BEGIN TRANSACTION
 	INSERT INTO dbo.Evento_Desportivo(Id_Evento, ano, data_da_realização, data_limite_pagamento, fim_data_subscrição, inicio_data_subscrição, idade_min, idade_max, estado, min_participantes, max_participantes, descrição, preço_por_participante) 
 	VALUES (@ID, @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, NULL, @min_participantes, @max_participantes, @descrição, @preço_por_participante)
 	PRINT @ID
-COMMIT
-RETURN 
+	COMMIT
+	RETURN @ID
 
 GO
 
@@ -149,7 +150,7 @@ IF OBJECT_ID('dbo.InsertEventoCanoagem') IS NOT NULL
 GO
 
 CREATE PROCEDURE dbo.InsertEventoCanoagem
-	@ID int output,
+	/*@ID int output,*/
 	@ano int output,
 	@data_da_realização datetime= NULL,
 	@data_limite_pagamento date= NULL,
@@ -166,7 +167,9 @@ CREATE PROCEDURE dbo.InsertEventoCanoagem
 AS
 SET xact_abort ON 
 BEGIN TRANSACTION
-	exec dbo.InsertEvento @ID, @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, NULL, @min_participantes, @max_participantes, @descrição, @preço_por_participante
+	DECLARE @ID INT
+	exec @ID =  dbo.InsertEvento /*@ID,*/ @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, NULL, @min_participantes, @max_participantes, @descrição, @preço_por_participante
+	/*SELECT */
 	PRINT @ID
 	INSERT INTO dbo.canoagem(Id_Evento, ano, dificuldade)
 	VALUES(@ID, @ano, @dificuldade)
@@ -181,7 +184,7 @@ IF OBJECT_ID('dbo.InsertEventoEscalada') IS NOT NULL
 GO
 
 CREATE PROCEDURE dbo.InsertEventoEscalada
-	@ID int output,
+	/*@ID int output,*/
 	@ano int output,
 	@data_da_realização datetime= NULL,
 	@data_limite_pagamento date= NULL,
@@ -198,7 +201,8 @@ CREATE PROCEDURE dbo.InsertEventoEscalada
 AS
 SET xact_abort ON 
 BEGIN TRANSACTION
-	exec dbo.InsertEvento @ID, @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, NULL, @min_participantes, @max_participantes, @descrição, @preço_por_participante
+	DECLARE @ID INT
+	exec @ID =dbo.InsertEvento/* @ID,*/ @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, NULL, @min_participantes, @max_participantes, @descrição, @preço_por_participante
 	PRINT @ID
 	INSERT INTO dbo.escalada(Id_Evento, ano, dificuldade)
 	VALUES(@ID, @ano, @dificuldade)
@@ -213,7 +217,7 @@ IF OBJECT_ID('dbo.InsertEventoCiclismo') IS NOT NULL
 GO
 
 CREATE PROCEDURE dbo.InsertEventoCiclismo
-	@ID int output,
+	/*@ID int output,*/
 	@ano int output,
 	@data_da_realização datetime= NULL,
 	@data_limite_pagamento date= NULL,
@@ -230,7 +234,8 @@ CREATE PROCEDURE dbo.InsertEventoCiclismo
 AS
 SET xact_abort ON 
 BEGIN TRANSACTION
-	exec dbo.InsertEvento @ID, @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, NULL, @min_participantes, @max_participantes, @descrição, @preço_por_participante
+	DECLARE @ID INT
+	exec @ID =dbo.InsertEvento /*@ID,*/ @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, NULL, @min_participantes, @max_participantes, @descrição, @preço_por_participante
 	PRINT @ID
 	INSERT INTO dbo.ciclismo(Id_Evento, ano, distancia)
 	VALUES(@ID, @ano, @distancia)
@@ -245,7 +250,7 @@ IF OBJECT_ID('dbo.InsertEventoTrail') IS NOT NULL
 GO
 
 CREATE PROCEDURE dbo.InsertEventoTrail
-	@ID int output,
+	/*@ID int output,*/
 	@ano int output,
 	@data_da_realização datetime= NULL,
 	@data_limite_pagamento date= NULL,
@@ -262,7 +267,8 @@ CREATE PROCEDURE dbo.InsertEventoTrail
 AS
 SET xact_abort ON 
 BEGIN TRANSACTION
-	exec dbo.InsertEvento @ID, @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, NULL, @min_participantes, @max_participantes, @descrição, @preço_por_participante
+	DECLARE @ID INT
+	exec @ID = dbo.InsertEvento /*@ID,*/ @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, NULL, @min_participantes, @max_participantes, @descrição, @preço_por_participante
 	PRINT @ID
 	INSERT INTO dbo.trail(Id_Evento, ano, distancia)
 	VALUES(@ID, @ano, @distancia)

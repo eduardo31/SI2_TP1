@@ -39,8 +39,6 @@ IF OBJECT_ID('dbo.canoagem') is null
 	CREATE TABLE dbo.canoagem(
 		Id_Evento int,
 		ano int,
-		/*constraint fk1_Id_Evento,fk1_ano foreign key(Id_Evento,ano) references Evento_Desportivo,
-		constraint fk1_Id_Evento foreign key(Id_Evento) references Evento_Desportivo,*/
 		dificuldade int,
 		CHECK(dificuldade>0 and dificuldade<6),
 		foreign key(Id_Evento,ano)references Evento_Desportivo(Id_Evento,ano),
@@ -61,7 +59,7 @@ IF OBJECT_ID('dbo.ciclismo') is null
 		Id_Evento int,
 		ano int,
 		distancia int,
-		CHECK(distancia>0 and distancia<6),
+		CHECK(distancia>0),
 		foreign key(Id_Evento,ano)references Evento_Desportivo(Id_Evento,ano),
 		PRIMARY KEY(Id_Evento,ano)
 	)
@@ -70,7 +68,7 @@ IF OBJECT_ID('dbo.trail') is null
 		Id_Evento int,
 		ano int,
 		distancia int,
-		CHECK(distancia>0 and distancia<6),
+		CHECK(distancia>0),
 		foreign key(Id_Evento,ano)references Evento_Desportivo(Id_Evento,ano),
 		PRIMARY KEY(Id_Evento,ano)
 	)
