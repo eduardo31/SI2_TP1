@@ -11,38 +11,44 @@ CREATE PROCEDURE dbo.VerificarEstados
 AS
 SET xact_abort ON 
 BEGIN TRANSACTION
-	/*atualizar os que ja entrarem em subscrição*/
-	UPDATE  dbo.Evento_Desportivo SET estado='em subscrição' WHERE GETDATE()>=(SELECT inicio_data_subscrição FROM dbo.Evento_Desportivo WHERE estado=NULL)
 
+	Declare @Id int,@ANOEVENTO int,@fim_data_subscrição DATE,@inicio_data_subscrição DATE,@min_participantes int,@Participantes int, @dataCurrente DATETIME,@data_da_realização DATETIME
 	
-	/*CRIAR VIEW*/
+	SELECT @dataCurrente = GETDATE()
 
-	/*atualizar os que ja subscreveram*/
-
-	Declare @Id int,@ANOEVENTO int,@fim_data_subscrição DATE,@min_participantes int,@Participantes int
-
-
-	While (Select Count(*) From dbo.Evento_Desportivo Where Processed=0 AND estado='em subscrição') > 0
+	While (Select Count(*) From dbo.Evento_Desportivo Where Processed=0) > 0
 	Begin
-		Select Top 1 @Id = Id_Evento,@ANOEVENTO=ano From dbo.Evento_Desportivo Where Processed=0 AND estado='em subscrição'
+		Select Top 1 @Id = Id_Evento,@ANOEVENTO=ano, @fim_data_subscrição = fim_data_subscrição,@inicio_data_subscrição=inicio_data_subscrição,@min_participantes=min_participantes,@data_da_realização=data_da_realização From dbo.Evento_Desportivo Where Processed=0
+		
+		/*atualizar os que ja entraram em subscrição*/
 
-		SELECT @fim_data_subscrição = fim_data_subscrição,@min_participantes=min_participantes FROM dbo.Evento_Desportivo WHERE @Id = Id_Evento AND @ANOEVENTO=ano
+		IF(@dataCurrente>=@inicio_data_subscrição /*AND @estado IS NULL*/)
+		BEGIN
+			UPDATE  dbo.Evento_Desportivo SET estado='em subscrição' WHERE @Id = Id_Evento AND @ANOEVENTO=ano AND (estado IS NULL)
+			/*exec dbo.UpdateEvento @Id_Evento=@Id,@ano=@ANOEVENTO, @estado='em subscrição'*/
+		END
+		
+		/*atualizar os que ja subscreveram*/
 		SELECT @Participantes = COUNT( NIF) FROM dbo.Subscrição WHERE @Id = Id_Evento AND @ANOEVENTO=ano
 
-		IF (GETDATE()>=@fim_data_subscrição)
+		IF (@dataCurrente>=@fim_data_subscrição)
 		BEGIN
 			IF (@min_participantes<@Participantes)
-				Update dbo.Evento_Desportivo Set estado='subscrito' Where Id_Evento = @Id AND ano=@ANOEVENTO
+				Update dbo.Evento_Desportivo Set estado='subscrito' Where Id_Evento = @Id AND ano=@ANOEVENTO AND estado = 'em subscrição'
 			ELSE
-				Update dbo.Evento_Desportivo Set estado='cancelado' Where Id_Evento = @Id AND ano=@ANOEVENTO	
+				Update dbo.Evento_Desportivo Set estado='cancelado' Where Id_Evento = @Id AND ano=@ANOEVENTO AND estado = 'em subscrição'	
 		END
+
+		/*atualizar os que ja acabaram*/
+		IF(@dataCurrente>=@data_da_realização)
+		BEGIN
+		UPDATE  dbo.Evento_Desportivo SET estado='concluído' WHERE Id_Evento = @Id AND ano=@ANOEVENTO AND estado='subscrito'
+		END
+
 		Update dbo.Evento_Desportivo Set Processed = 1 Where Id_Evento = @Id AND ano=@ANOEVENTO 
 	End
-	Update dbo.Evento_Desportivo Set Processed = 0 Where Id_Evento = @Id AND ano=@ANOEVENTO AND Processed = 1
-	/*atualizar os que ja acabaram*/
-
-	UPDATE  dbo.Evento_Desportivo SET estado='concluído' WHERE GETDATE()>=(SELECT data_da_realização FROM dbo.Evento_Desportivo WHERE estado='subscrito')
 	
+	Update dbo.Evento_Desportivo Set Processed = 0 Where Processed = 1
 	
 	
 COMMIT
