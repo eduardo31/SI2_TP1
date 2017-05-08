@@ -18,7 +18,6 @@ SET xact_abort ON
 BEGIN TRANSACTION
 	INSERT INTO dbo.Cliente(Nome, NIF, CC, Morada, email, data_nascimento) VALUES (@Nome, @NIF, @CC, @Morada, @email, @data_nascimento)
 	/*SELECT @NIF = SCOPE_IDENTITY()*/
-	PRINT @NIF
 COMMIT
 RETURN
 
@@ -82,7 +81,7 @@ SET xact_abort ON
 BEGIN TRANSACTION
 IF @NIF IS NULL
 	RAISERROR('NIF nao pode ser null',15,1)
-IF NOT EXISTS(SELECT NIF FROM dbo.Cliente where NIF = @NIF)
+ELSE IF NOT EXISTS(SELECT NIF FROM dbo.Cliente where NIF = @NIF)
 	RAISERROR('Não existe um cliente com este NIF!',15,1)
 ELSE
 	UPDATE dbo.Cliente SET existente='F' WHERE NIF = @NIF

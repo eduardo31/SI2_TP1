@@ -16,12 +16,14 @@ SET xact_abort ON
 BEGIN TRANSACTION
 	IF NOT EXISTS (SELECT NIF FROM dbo.Cliente WHERE NIF = @NIF)  
 		RAISERROR('Cliente INVÁLIDO!',15,1)
-	DECLARE @email varchar(50)
-	SELECT @email = email FROM dbo.Cliente WHERE NIF=@NIF
-	IF @email=NULL  
-		RAISERROR('EMAIL INVÁLIDO!',15,1)
-
-	INSERT INTO dbo.MailsEnviados(NIF, email, MSG) VALUES (@NIF,@email,@MSG)
+	ELSE BEGIN
+		DECLARE @email varchar(50)
+		SELECT @email = email FROM dbo.Cliente WHERE NIF=@NIF
+		IF @email IS NULL  
+			RAISERROR('EMAIL INVÁLIDO!',15,1)
+		ELSE
+			INSERT INTO dbo.MailsEnviados(NIF, email, MSG) VALUES (@NIF,@email,@MSG)
+	END
 COMMIT
 RETURN 
 

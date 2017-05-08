@@ -34,7 +34,6 @@ BEGIN TRANSACTION
 
 	INSERT INTO dbo.Evento_Desportivo(Id_Evento, ano, data_da_realização, data_limite_pagamento, fim_data_subscrição, inicio_data_subscrição, idade_min, idade_max, estado, min_participantes, max_participantes, descrição, preço_por_participante) 
 	VALUES (@ID, @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, @estado, @min_participantes, @max_participantes, @descrição, @preço_por_participante)
-	PRINT @ID
 	COMMIT
 	RETURN @ID
 
@@ -63,7 +62,8 @@ SET XACT_ABORT ON
 BEGIN TRANSACTION 
 	IF NOT EXISTS (SELECT Id_Evento,ano FROM dbo.Evento_Desportivo WHERE Id_Evento = @Id_Evento AND ano=@ano)  
 		RAISERROR('Id_Evento INVÁLIDO!',15,1)
-
+	ELSE
+	BEGIN
 	IF @data_da_realização IS NOT NULL
 		UPDATE dbo.Evento_Desportivo SET data_da_realização = @data_da_realização WHERE Id_Evento = @Id_Evento AND ano=@ano
 
@@ -99,6 +99,7 @@ BEGIN TRANSACTION
 
 	IF @preço_por_participante IS NOT NULL
 		UPDATE dbo.Evento_Desportivo SET preço_por_participante = @preço_por_participante WHERE Id_Evento = @Id_Evento AND ano=@ano
+	END
 COMMIT 
 
 GO
@@ -170,10 +171,9 @@ BEGIN TRANSACTION
 	DECLARE @ID INT
 	exec @ID =  dbo.InsertEvento /*@ID,*/ @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, @estado, @min_participantes, @max_participantes, @descrição, @preço_por_participante
 	/*SELECT */
-	PRINT @ID
+	IF @ID IS NOT NULL
 	INSERT INTO dbo.canoagem(Id_Evento, ano, dificuldade)
 	VALUES(@ID, @ano, @dificuldade)
-	PRINT @ID
 COMMIT
 RETURN 
 
@@ -203,10 +203,9 @@ SET xact_abort ON
 BEGIN TRANSACTION
 	DECLARE @ID INT
 	exec @ID =dbo.InsertEvento/* @ID,*/ @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, @estado, @min_participantes, @max_participantes, @descrição, @preço_por_participante
-	PRINT @ID
+		IF @ID IS NOT NULL
 	INSERT INTO dbo.escalada(Id_Evento, ano, dificuldade)
 	VALUES(@ID, @ano, @dificuldade)
-	PRINT @ID
 COMMIT
 RETURN 
 
@@ -236,10 +235,9 @@ SET xact_abort ON
 BEGIN TRANSACTION
 	DECLARE @ID INT
 	exec @ID =dbo.InsertEvento /*@ID,*/ @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, @estado, @min_participantes, @max_participantes, @descrição, @preço_por_participante
-	PRINT @ID
+		IF @ID IS NOT NULL
 	INSERT INTO dbo.ciclismo(Id_Evento, ano, distancia)
 	VALUES(@ID, @ano, @distancia)
-	PRINT @ID
 COMMIT
 RETURN 
 
@@ -269,10 +267,9 @@ SET xact_abort ON
 BEGIN TRANSACTION
 	DECLARE @ID INT
 	exec @ID = dbo.InsertEvento /*@ID,*/ @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, @estado, @min_participantes, @max_participantes, @descrição, @preço_por_participante
-	PRINT @ID
+		IF @ID IS NOT NULL
 	INSERT INTO dbo.trail(Id_Evento, ano, distancia)
 	VALUES(@ID, @ano, @distancia)
-	PRINT @ID
 COMMIT
 RETURN 
 
@@ -317,9 +314,12 @@ SET XACT_ABORT ON
 BEGIN TRANSACTION 
 	IF NOT EXISTS (SELECT Id_Evento,ano FROM dbo.Evento_Desportivo WHERE Id_Evento = @Id_Evento AND ano=@ano)  
 		RAISERROR('Id_Evento_CANOAGEM INVÁLIDO!',15,1)
-    exec dbo.UpdateEvento @ID_Evento, @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, @estado, @min_participantes, @max_participantes, @descrição, @preço_por_participante
+    ELSE
+	BEGIN
+	exec dbo.UpdateEvento @ID_Evento, @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, @estado, @min_participantes, @max_participantes, @descrição, @preço_por_participante
 	IF @dificuldade IS NOT NULL
 		UPDATE dbo.canoagem SET dificuldade = @dificuldade WHERE Id_Evento = @Id_Evento AND ano=@ano
+	END
 COMMIT 
 
 GO
@@ -348,9 +348,12 @@ SET XACT_ABORT ON
 BEGIN TRANSACTION 
 	IF NOT EXISTS (SELECT Id_Evento,ano FROM dbo.Evento_Desportivo WHERE Id_Evento = @Id_Evento AND ano=@ano)  
 		RAISERROR('Id_Evento_ESCALADA INVÁLIDO!',15,1)
+	ELSE
+	BEGIN
     exec dbo.UpdateEvento @ID_Evento, @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, @estado, @min_participantes, @max_participantes, @descrição, @preço_por_participante
 	IF @dificuldade IS NOT NULL
 		UPDATE dbo.escalada SET dificuldade = @dificuldade WHERE Id_Evento = @Id_Evento AND ano=@ano
+	END
 COMMIT 
 
 GO
@@ -379,9 +382,12 @@ SET XACT_ABORT ON
 BEGIN TRANSACTION 
 	IF NOT EXISTS (SELECT Id_Evento,ano FROM dbo.Evento_Desportivo WHERE Id_Evento = @Id_Evento AND ano=@ano)  
 		RAISERROR('Id_Evento_Ciclismo INVÁLIDO!',15,1)
-    exec dbo.UpdateEvento @ID_Evento, @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, @estado, @min_participantes, @max_participantes, @descrição, @preço_por_participante
+    ELSE
+	BEGIN
+	exec dbo.UpdateEvento @ID_Evento, @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, @estado, @min_participantes, @max_participantes, @descrição, @preço_por_participante
 	IF @distancia IS NOT NULL
 		UPDATE dbo.Ciclismo SET distancia = @distancia WHERE Id_Evento = @Id_Evento AND ano=@ano
+	END
 COMMIT 
 
 GO
@@ -410,9 +416,12 @@ SET XACT_ABORT ON
 BEGIN TRANSACTION 
 	IF NOT EXISTS (SELECT Id_Evento,ano FROM dbo.Evento_Desportivo WHERE Id_Evento = @Id_Evento AND ano=@ano)  
 		RAISERROR('Id_Evento_Trail INVÁLIDO!',15,1)
-    exec dbo.UpdateEvento @ID_Evento, @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, @estado, @min_participantes, @max_participantes, @descrição, @preço_por_participante
+    ELSE
+	BEGIN
+	exec dbo.UpdateEvento @ID_Evento, @ano, @data_da_realização, @data_limite_pagamento, @fim_data_subscrição, @inicio_data_subscrição, @idade_min, @idade_max, @estado, @min_participantes, @max_participantes, @descrição, @preço_por_participante
 	IF @distancia IS NOT NULL
 		UPDATE dbo.trail SET distancia = @distancia WHERE Id_Evento = @Id_Evento AND ano=@ano
+	END
 COMMIT 
 
 GO

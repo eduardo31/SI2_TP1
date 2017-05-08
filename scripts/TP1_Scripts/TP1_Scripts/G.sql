@@ -74,7 +74,7 @@ as
 		DECLARE @Id int,@ANOEVENTO int
  
 		SELECT @Id = INSERTED.Id_Evento , @ANOEVENTO = INSERTED.ano FROM INSERTED
-
+		
 		/*CRIAR A MENSAGEM*/
 		declare @MENSAGEM varchar(8000)
 		set     @MENSAGEM = 'Gostariamos de o avisar que o evento '

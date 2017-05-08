@@ -71,7 +71,7 @@ GO
 print(' ')
 print('*****************************TESTE D EVENTOS*****************************')
 print(' ')
-print('Inserir 8 eventos')
+print('Inserir 12 eventos')
 print('Antes de inserir eventos')
 	select * from dbo.Evento_Desportivo
 
@@ -97,6 +97,10 @@ print('Antes de inserir eventos')
 
 	/* evento escalada que inicia com o estado cancelado */
 	exec dbo.InsertEventoEscalada @ano=2017,	@data_da_realização='2017-05-10 15:00:00',@data_limite_pagamento = '2017-05-09',@fim_data_subscrição = '2017-05-15',	@inicio_data_subscrição = '2017-05-1',	@idade_min = 15,	@idade_max = 30, @estado='cancelado', @min_participantes = 15,	@max_participantes = 30,	@descrição = 'Escalada ISEL.',	@preço_por_participante = 12.99,	@dificuldade =4
+	exec dbo.InsertEventoEscalada @ano=2017,	@data_da_realização='2017-09-10 10:00:00',@data_limite_pagamento = '2017-09-09',@fim_data_subscrição = '2017-09-10',	@inicio_data_subscrição = '2017-09-01',	@idade_min = 25,	@idade_max = 30, @estado='cancelado', @min_participantes = 15,	@max_participantes = 30,	@descrição = 'Escalada ISEL 2.',	@preço_por_participante = 15.99,	@dificuldade =4
+		exec dbo.InsertEventoEscalada @ano=2017,	@data_da_realização='2017-09-10 10:00:00',@data_limite_pagamento = '2017-09-09',@fim_data_subscrição = '2017-09-10',	@inicio_data_subscrição = '2017-09-01',	@idade_min = 25,	@idade_max = 30, @estado='cancelado', @min_participantes = 15,	@max_participantes = 30,	@descrição = 'Escalada ISEL 2.',	@preço_por_participante = 15.99,	@dificuldade =4
+			exec dbo.InsertEventoEscalada @ano=2017,	@data_da_realização='2017-09-10 10:00:00',@data_limite_pagamento = '2017-09-09',@fim_data_subscrição = '2017-09-10',	@inicio_data_subscrição = '2017-09-01',	@idade_min = 25,	@idade_max = 30, @estado='cancelado', @min_participantes = 15,	@max_participantes = 30,	@descrição = 'Escalada ISEL 2.',	@preço_por_participante = 15.99,	@dificuldade =4
+				exec dbo.InsertEventoEscalada @ano=2017,	@data_da_realização='2017-09-10 10:00:00',@data_limite_pagamento = '2017-09-09',@fim_data_subscrição = '2017-09-10',	@inicio_data_subscrição = '2017-09-01',	@idade_min = 25,	@idade_max = 30, @estado='cancelado', @min_participantes = 15,	@max_participantes = 30,	@descrição = 'Escalada ISEL 2.',	@preço_por_participante = 15.99,	@dificuldade =4
 
 
 
@@ -161,6 +165,50 @@ GO
 
 
 
+
+SET NOCOUNT ON
+begin tran
+GO
+
+print(' ')
+print('*****************************TESTE F*****************************')
+print(' ')
+print('Proceder ao pagamento de uma subscrição.')
+print('Before: Faturas') 
+	select * from dbo.Fatura
+
+print('Pagar subscrição')
+
+
+	
+	
+	-- testar montante insuficiente
+	exec dbo.PagarSubscricao @Id_Evento=2,@ano=2017,@NIF=178845691,@Id_Factura=1,@montante=50
+	exec dbo.PagarSubscricao @Id_Evento=5,@ano=2017,@NIF=118845791,@Id_Factura=2,@montante=1
+
+	
+	
+		
+
+
+	
+print('After: Faturas') 
+	select * from dbo.Fatura
+
+
+	commit
+GO
+
+
+
+
+
+
+
+
+
+
+
 SET NOCOUNT ON 
 begin tran
 GO
@@ -168,7 +216,7 @@ print(' ')
 print('*****************************TESTE I INICIO*****************************')
 print('Listar a contagem dos eventos cancelados, agrupados por tipo, num dado intervalo de datas')
 print('Data de  inicio 2017-01-1 e data de fim 2017-08-1')
-	select * from dbo.EventosCancelados ('2017-01-1','2017-08-1');
+	select * from dbo.EventosCancelados ('2015-01-1','2020-08-1');
 GO
 COMMIT
 
@@ -186,13 +234,45 @@ print('Data de  inicio 2017-05-05 e data de fim 2017-05-20')
 GO
 COMMIT
 
+
+SET NOCOUNT ON 
+begin tran
+GO
+
+
+print('*****************************TESTE VERIFICAR ESTADOS*****************************')
+	SELECT * FROM dbo.Subscrição
+	print(' ')
+	print('Atualizar ESTADO')
+	
+	print('Antes da atulização') 
+	select estado from dbo.Evento_Desportivo where Id_Evento=2 and ano=2017
+	print('Verificar a atulização')
+	exec dbo.UpdateEvento @Id_Evento=2,@ano=2017,@estado='concluído'
+
+
+	select estado from dbo.Evento_Desportivo where Id_Evento=2 and ano=2017
+	exec dbo.VerificarEstados
+
+
+	print('*****************************TESTE Mails*****************************')
+	select NIF,email from dbo.MailsEnviados;
+
+GO
+COMMIT
+
+
+
+
 SET NOCOUNT ON 
 begin tran
 GO
 print(' ')
 print('*****************************TESTE K INICIO*****************************')
 print('Listar todas as faturas por ano num dado intervalo de montantes.')
-print('Ano 2017 entre 0 e 30 euros')
-	select * from dbo.FaturasPorAno ('2017',0,30);
+print('Ano 2017 entre 0 e 100 euros')
+	select * from dbo.FaturasPorAno ('2017',0,100);
 GO
 COMMIT
+
+
