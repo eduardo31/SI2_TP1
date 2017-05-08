@@ -141,7 +141,16 @@ GO
 
 
 
-
+SET NOCOUNT ON 
+begin tran
+GO
+print(' ')
+print('*****************************TESTE I INICIO*****************************')
+print('Listar a contagem dos eventos cancelados, agrupados por tipo, num dado intervalo de datas')
+print('Data de  inicio 2017-01-1 e data de fim 2017-08-1')
+	select * from dbo.EventosCancelados ('2017-01-1','2017-08-1');
+GO
+COMMIT
 
 
 
@@ -150,7 +159,7 @@ SET NOCOUNT ON
 begin tran
 GO
 print(' ')
-print('*****************************TESTE J*****************************')
+print('*****************************TESTE J INICIO*****************************')
 print('Listar todos os eventos com lugares disponíveis para um intervalo de datas especificado')
 print('Data de  inicio 2017-05-05 e data de fim 2017-05-20')
 	select * from dbo.EventosDisponiveis ('2017-06-20','2017-06-30');
@@ -161,9 +170,9 @@ SET NOCOUNT ON
 begin tran
 GO
 print(' ')
-print('*****************************TESTE K*****************************')
-print('Listar todos os eventos com lugares disponíveis para um intervalo de datas especificado')
-print('Data de  inicio 2017-05-05 e data de fim 2017-05-20')
-	select * from dbo.EventosDisponiveis ('2017-05-05','2017-05-20');
+print('*****************************TESTE K INICIO*****************************')
+print('Listar todas as faturas por ano num dado intervalo de montantes.')
+print('Ano 2017 entre 0 e 30 euros')
+	select * from dbo.FaturasPorAno ('2017',0,30);
 GO
 COMMIT
